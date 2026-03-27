@@ -864,7 +864,7 @@ sap.ui.define([
                 <clipPath id="oc-sap-clip"><rect width="60" height="29" fill="white"/></clipPath>
               </defs>
             </svg>
-            <button class="bn-shell-brand-btn" title="Business Network">
+            <button class="bn-shell-brand-btn" title="Back to Workbench" onclick="window.location.href='../index.html'">
               <span class="bn-shell-brand-text">Business Network</span>
               <span class="bn-shell-brand-arrow">
                 ${_ocIcon("slim-arrow-down")}
@@ -3118,8 +3118,8 @@ sap.ui.define([
         var tile = e.target.closest(".bn-kpi-tile");
         if (!tile) return;
         var key = tile.getAttribute("data-key");
-        if (key === "orders")      { e.stopImmediatePropagation(); window.location.replace(window.location.origin + "/index.html"); return; }
-        if (key === "itemsToShip") { e.stopImmediatePropagation(); window.location.replace(window.location.origin + "/ASN-Joule-Demo/index.html"); return; }
+        if (key === "orders")      { e.stopImmediatePropagation(); window.location.replace(window.location.href.replace(/\/[^\/]*\/[^\/]*$/, "/index.html")); return; }
+        if (key === "itemsToShip") { e.stopImmediatePropagation(); window.location.replace(window.location.href.replace(/\/[^\/]*\/[^\/]*$/, "/ASN-Joule-Demo/index.html")); return; }
         if (!scroller) { return; }
         scroller.querySelectorAll(".bn-kpi-tile").forEach(function (t) { t.classList.remove("active"); });
         tile.classList.add("active");
