@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workbench</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='60' height='29' viewBox='0 0 60 29' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23c)'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 29.3478H29.983L59.3257 0H0V29.3478Z' fill='url(%23g)'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M35.2068 5.86961H29.3477L29.3673 19.65L24.2653 5.86504H19.2064L14.8512 17.3779C14.3881 14.4483 11.3594 13.4374 8.97639 12.6803C7.40269 12.1748 5.73247 11.4313 5.74943 10.6096C5.76247 9.93526 6.64291 9.30983 8.39269 9.40309C9.5666 9.46635 10.6036 9.56091 12.6664 10.5574L14.6946 7.02265C12.8138 6.06526 10.2129 5.4607 8.0803 5.45874H8.06726C5.58052 5.45874 3.50986 6.26418 2.22639 7.59135C1.3316 8.51744 0.848995 9.69526 0.829429 10.9977C0.796821 12.7898 1.45356 14.0603 2.83356 15.0757C3.99965 15.93 5.49117 16.4844 6.8053 16.8913C8.42595 17.3935 9.74986 17.8305 9.73356 18.7605C9.72052 19.0996 9.59269 19.4166 9.34878 19.6722C8.94443 20.0896 8.32486 20.2461 7.46726 20.2631C5.81269 20.2983 4.5866 20.0381 2.63269 18.8831L0.828125 22.4635C2.78008 23.5735 4.85204 24.1305 7.20639 24.1305L7.73595 24.1266C9.78508 24.0894 11.4481 23.5983 12.7694 22.5353C12.8451 22.4746 12.9129 22.4133 12.9833 22.3513L12.7616 23.494L17.7051 23.4783L18.592 21.2074C19.5246 21.5257 20.5851 21.7018 21.7107 21.7018C22.8077 21.7018 23.8394 21.5348 24.7544 21.2348L25.3727 23.4783L34.2423 23.4868L34.2638 18.3098H36.1512C40.7131 18.3098 43.4099 15.9881 43.4099 12.0946C43.4086 7.75831 40.7868 5.86961 35.2068 5.86961ZM21.7107 17.6492C21.0292 17.6492 20.3901 17.5305 19.8403 17.3218L21.6899 11.4816H21.7257L23.5453 17.3381C22.9975 17.5337 22.3733 17.6492 21.7101 17.6492H21.7107ZM35.5499 14.2937H34.2625V9.587H35.5505C37.2657 9.587 38.6353 10.1583 38.6353 11.91C38.634 13.7231 37.2657 14.2937 35.5505 14.2937' fill='white'/%3E%3C/g%3E%3Cdefs%3E%3ClinearGradient id='g' x1='29.6628' y1='0' x2='29.6628' y2='29.3485' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%2300AEEF'/%3E%3Cstop offset='0.212' stop-color='%230097DC'/%3E%3Cstop offset='0.519' stop-color='%23007CC5'/%3E%3Cstop offset='0.792' stop-color='%23006CB8'/%3E%3Cstop offset='1' stop-color='%230066B3'/%3E%3C/linearGradient%3E%3CclipPath id='c'%3E%3Crect width='60' height='29' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E" />
+
+  <script id="sap-ui-bootstrap"
+    src="https://ui5.sap.com/resources/sap-ui-core.js"
+    data-sap-ui-theme="sap_horizon"
+    data-sap-ui-libs="sap.m,sap.uxap,sap.ui.layout,sap.f,sap.tnt"
+    data-sap-ui-compatVersion="edge"
+    data-sap-ui-async="true"
+    data-sap-ui-on-init="module:businessnetwork/oc/init"
+    data-sap-ui-resource-roots='{"businessnetwork.oc": "./"}'>
+  </script>
+
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+    #content    { flex: 1; min-height: 0; }
+
+    /* ── TEST-MODE banner ── */
+    #test-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background: #fff3cd;
+      border-top: 1px solid #ffc107;
+      padding: 6px 40px 6px 16px;
+      font-family: "72", Arial, sans-serif;
+      font-size: 12px;
+      color: #856404;
+      text-align: center;
+      white-space: normal;
+      transition: opacity 0.4s ease, max-height 0.4s ease, padding 0.4s ease;
+      overflow: hidden;
+      max-height: 60px;
+      opacity: 1;
+    }
+    #test-banner.bn-banner-hidden {
+      opacity: 0;
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    #test-banner-close {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #856404;
+      font-size: 16px;
+      line-height: 1;
+      padding: 2px 4px;
+      border-radius: 3px;
+      opacity: 0.7;
+    }
+    #test-banner-close:hover { opacity: 1; background: rgba(133,100,4,0.1); }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var bUpdating = false;
+      new MutationObserver(function () {
+        if (bUpdating) { return; }
+        bUpdating = true;
+        document.querySelectorAll(".sapMGrowingListTriggerText .sapMSLITitle").forEach(function (el) {
+          if (/\(\d+\)\s*$/.test(el.textContent)) {
+            el.textContent = el.textContent.replace(/\s*\(\d+\)\s*$/, "");
+          }
+        });
+        bUpdating = false;
+      }).observe(document.body, { childList: true, subtree: true, characterData: true });
+
+      /* Banner close / reopen */
+      var _bannerClosedByUser = false;
+      var closeBtn = document.getElementById("test-banner-close");
+      var banner = document.getElementById("test-banner");
+      if (closeBtn && banner) {
+        closeBtn.addEventListener("click", function () {
+          _bannerClosedByUser = true;
+          banner.classList.add("bn-banner-hidden");
+        });
+      }
+      /* Expose reopen so external code (e.g. Joule close) can call it */
+      window._reopenTestBanner = function () {
+        if (!_bannerClosedByUser) {
+          banner && banner.classList.remove("bn-banner-hidden");
+        }
+      };
+      window._closeTestBanner = function () {
+        banner && banner.classList.add("bn-banner-hidden");
+      };
+
+      /* Banner fade: hide when Joule opens, restore when Joule closes */
+      var _origToggle = null;
+      var _hookInterval = setInterval(function () {
+        if (typeof window._ocJouleToggle !== "function") { return; }
+        clearInterval(_hookInterval);
+        _origToggle = window._ocJouleToggle;
+        window._ocJouleToggle = function () {
+          _origToggle();
+          var jouleWrap = document.getElementById("oc-joule") &&
+                          document.getElementById("oc-joule").parentElement;
+          var opened = jouleWrap && jouleWrap.style.display !== "none";
+          if (opened) {
+            window._closeTestBanner();
+          } else {
+            window._reopenTestBanner();
+          }
+        };
+      }, 100);
+    });
+  </script>
+</head>
+<body class="sapUiBody sapUiSizeCompact">
+  <div id="content"></div>
+  <div id="test-banner">
+    Test Build – Internal testing version.<!-- Kate Yu -->
+    <button id="test-banner-close" title="Dismiss">&#x2715;</button>
+  </div>
+</body>
+</html>
