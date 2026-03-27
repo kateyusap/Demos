@@ -1145,7 +1145,7 @@ sap.ui.define([
             </defs>
           </svg>
           <!-- Business Network menu button -->
-          <button class="bn-shell-brand-btn" title="Business Network">
+          <button class="bn-shell-brand-btn" title="Back to Workbench" onclick="window.location.href='../index.html'">
             <span class="bn-shell-brand-text">Business Network</span>
             <span class="bn-shell-brand-arrow">
               ${_bnIcon("slim-arrow-down")}
@@ -4848,8 +4848,8 @@ sap.ui.define([
         var tile = e.target.closest(".bn-kpi-tile");
         if (!tile) { return; }
         var key = tile.getAttribute("data-key");
-        if (key === "orders")         { e.stopImmediatePropagation(); e.preventDefault(); setTimeout(function(){ window.location.replace(window.location.origin + "/index.html"); }, 0); return; }
-        if (key === "itemsToConfirm") { e.stopImmediatePropagation(); e.preventDefault(); setTimeout(function(){ window.location.replace(window.location.origin + "/OC-Joule-Demo/index.html"); }, 0); return; }
+        if (key === "orders")         { e.stopImmediatePropagation(); e.preventDefault(); setTimeout(function(){ window.location.replace(window.location.href.replace(/\/[^\/]*\/[^\/]*$/, "/index.html")); }, 0); return; }
+        if (key === "itemsToConfirm") { e.stopImmediatePropagation(); e.preventDefault(); setTimeout(function(){ window.location.replace(window.location.href.replace(/\/[^\/]*\/[^\/]*$/, "/OC-Joule-Demo/index.html")); }, 0); return; }
         if (!scroller) { return; }
         scroller.querySelectorAll(".bn-kpi-tile.active").forEach(function (t) { t.classList.remove("active"); });
         tile.classList.add("active");
