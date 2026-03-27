@@ -718,8 +718,8 @@ sap.ui.define([
       var tile = e.target.closest(".bn-kpi-tile");
       if (!tile) { return; }
       var key = tile.getAttribute("data-key");
-      if (key === "itemsToShip")    { e.stopImmediatePropagation(); window.location.replace(window.location.origin + "/ASN-Joule-Demo/index.html"); return; }
-      if (key === "itemsToConfirm") { e.stopImmediatePropagation(); window.location.replace(window.location.origin + "/OC-Joule-Demo/index.html");  return; }
+      if (key === "itemsToShip")    { e.stopImmediatePropagation(); window.location.replace(window.location.href.replace(/\/[^\/]*$/, "/") + "ASN-Joule-Demo/index.html"); return; }
+      if (key === "itemsToConfirm") { e.stopImmediatePropagation(); window.location.replace(window.location.href.replace(/\/[^\/]*$/, "/") + "OC-Joule-Demo/index.html");  return; }
       if (!kpiContainer) { return; }
       kpiContainer.querySelectorAll(".bn-kpi-tile.active").forEach(function (t) { t.classList.remove("active"); });
       tile.classList.add("active");
@@ -851,7 +851,7 @@ sap.ui.define([
           '<div style="font-size:12px;font-weight:700;color:#0064d9;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Demo Entrances</div>',
 
           /* Items to Confirm */
-          '<div style="display:flex;gap:12px;margin-bottom:12px;cursor:pointer;" onclick="window._closeWelcome&&window._closeWelcome();window.location.replace(window.location.origin+\'/OC-Joule-Demo/index.html\')">',
+          '<div style="display:flex;gap:12px;margin-bottom:12px;cursor:pointer;" onclick="window._closeWelcome&&window._closeWelcome();window.location.replace(window.location.href.replace(/\\/[^\\/]*$/,\'/\')+\'OC-Joule-Demo/index.html\')">',
             '<div style="flex-shrink:0;width:36px;height:36px;border-radius:6px;background:#e8f3ff;display:flex;align-items:center;justify-content:center;">',
               _bnIcon("accept", 18),
             '</div>',
@@ -866,7 +866,7 @@ sap.ui.define([
           '</div>',
 
           /* Items to Ship */
-          '<div style="display:flex;gap:12px;cursor:pointer;" onclick="window._closeWelcome&&window._closeWelcome();window.location.replace(window.location.origin+\'/ASN-Joule-Demo/index.html\')">',
+          '<div style="display:flex;gap:12px;cursor:pointer;" onclick="window._closeWelcome&&window._closeWelcome();window.location.replace(window.location.href.replace(/\\/[^\\/]*$/,\'/\')+\'ASN-Joule-Demo/index.html\')">',
             '<div style="flex-shrink:0;width:36px;height:36px;border-radius:6px;background:#e8f3ff;display:flex;align-items:center;justify-content:center;">',
               _bnIcon("shipping-status", 18),
             '</div>',
