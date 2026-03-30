@@ -1571,8 +1571,8 @@ sap.ui.define([
      SHIP NOTICE VIEW — triggered when user picks "Review the generated Ship Notices"
   ──────────────────────────────────────────────────────────── */
   var SN_DATA = [
-    { shipNoticeNumber:"ASN-777", customer:"ABC", shipTo:"1200 W Fulton St, Chicago, IL 60607",      carrier:"Carrier A", shipDate:"", estDelivery:"2026-04-10", status:"Created", poNumber:"PO 123, PO 456" },
-    { shipNoticeNumber:"ASN-999", customer:"ABC", shipTo:"4800 S Westmoreland Rd, Dallas, TX 75237", carrier:"+1 (214) 555-0182", shipDate:"", estDelivery:"2026-04-11", status:"Created", poNumber:"logistics@abcmetals.com" }
+    { shipNoticeNumber:"ASN-777", customer:"ABC", shipTo:"1200 W Fulton St, Chicago, IL 60607",      carrier:"Carrier A", shipDate:"", estDelivery:"", status:"Created", poNumber:"PO 123, PO 456" },
+    { shipNoticeNumber:"ASN-999", customer:"ABC", shipTo:"4800 S Westmoreland Rd, Dallas, TX 75237", carrier:"+1 (214) 555-0182", shipDate:"", estDelivery:"", status:"Created", poNumber:"logistics@abcmetals.com" }
   ];
 
   window._bnOpenShipNotices = function () {
@@ -1619,9 +1619,18 @@ sap.ui.define([
 
     /* 6 — Table: replace data, columns, and title */
     window._bnTableMode = "shipNotice";
-    /* Inject the user-selected ship date */
+    /* Inject the user-selected ship date and compute estimated delivery dates from it */
     var snRows = JSON.parse(JSON.stringify(SN_DATA));
-    snRows.forEach(function (r) { r.shipDate = window._bnSelectedShipDate || ""; });
+    snRows.forEach(function (r, idx) {
+      r.shipDate = window._bnSelectedShipDate || "";
+      if (window._bnSelectedShipDate) {
+        var base = new Date(window._bnSelectedShipDate + "T00:00:00");
+        /* ASN-777 (Chicago): +2 days; ASN-999 (Dallas): +3 days — matches Carrier A avg */
+        var offsetDays = (idx === 0) ? 2 : 3;
+        base.setDate(base.getDate() + offsetDays);
+        r.estDelivery = base.toISOString().slice(0, 10);
+      }
+    });
     oModel.setProperty("/orders", snRows);
     if (oTableTitle) { oTableTitle.setText("Ship Notice (2)"); }
 
@@ -2416,7 +2425,7 @@ sap.ui.define([
                 /* Carrier B — avg 3 days: ASN-777 = +3, ASN-999 = +4 (Dallas is 1 day further) */
                 showThinkingDots(function () {
                   typeReply(
-                    "Carrier B has been assigned to ASN-777 and ASN-999. Estimated shipping date: " + dateStr + ". " +
+                    "Carrier B has been assigned to ASN-777 and ASN-999. Shipping date: " + dateStr + ". " +
                     "Estimated delivery date: " + addDays(shipIso, carrier.avgDays) + " for ASN-777 and " + addDays(shipIso, carrier.avgDays + 1) + " for ASN-999.",
                     function () {
                       _bnApplyAsnToWorkbench();
@@ -2484,7 +2493,8 @@ sap.ui.define([
                     /* Carrier A avg 2 days: ASN-777 = +2, ASN-999 = +3 (Dallas is 1 day further) */
                     var msg =
                       "ASN-777 has been generated with estimated delivery date " + addDays(shipIso, carrier.avgDays) +
-                      " and ASN-999 with estimated delivery date " + addDays(shipIso, carrier.avgDays + 1) + ".";
+                      ", and ASN-999 with estimated delivery date " + addDays(shipIso, carrier.avgDays + 1) +
+                      ". Both are based on a shipping date of " + dateStr + ".";
                     typeReply(msg, function () {
                       _bnApplyAsnToWorkbench();
                       setTimeout(function () {
@@ -2845,7 +2855,7 @@ sap.ui.define([
                           function () {
                             setTimeout(function () {
                               typeBoldReply(
-                                "Would you like me to assign an estimated ship date based on the origin, destination, and required delivery date?",
+                                "Would you like me to estimate the delivery date based on the origin, destination, and required ship date?",
                                 function () {
                                   /* Step 3 — Yes/No */
                                   setTimeout(function () {
@@ -2879,7 +2889,7 @@ sap.ui.define([
                                     if (opt.label === "Yes") {
                                       /* ── Yes: ask for shipping date → text input → carrier ── */
                                       showThinkingDots(function () {
-                        typeReply("Please select the estimated shipping date.", function () {
+                        typeReply("I'll use the required ship date as the basis. Please confirm or adjust the shipping date if needed.", function () {
                                           setTimeout(function () { buildShippingDateInput(); }, 350);
                                         });
                                       });
@@ -3768,6 +3778,13 @@ sap.ui.define([
       document.title = "Ship Notice";
 
       var snShipDate   = window._bnSelectedShipDate ? fmtDate(window._bnSelectedShipDate) : fmtDate(new Date().toISOString().slice(0, 10));
+      /* Compute estimated delivery date for ASN-999 (Dallas: +3 days from ship date) */
+      var snDeliveryIso = (function () {
+        var base = new Date((window._bnSelectedShipDate || new Date().toISOString().slice(0, 10)) + "T00:00:00");
+        base.setDate(base.getDate() + 3);
+        return base.toISOString().slice(0, 10);
+      }());
+      var snDeliveryDate = fmtDate(snDeliveryIso);
       var snCreateDate = fmtDate(new Date().toISOString().slice(0, 10));
 
       /* Reset line item quantities to originals on fresh open */
@@ -3877,7 +3894,7 @@ sap.ui.define([
               '</div>' +
               '<div style="display:flex;gap:6px;align-items:baseline;">' +
                 '<span style="color:#556b82;white-space:nowrap;">Delivery Date:</span>' +
-                '<span style="color:#1d2d3e;white-space:nowrap;">Apr 11, 2026</span>' +
+                '<span style="color:#1d2d3e;white-space:nowrap;">' + snDeliveryDate + '</span>' +
               '</div>' +
             '</div>' +
 
@@ -4058,8 +4075,8 @@ sap.ui.define([
                       '<span style="font-family:\'72\',Arial,sans-serif;font-size:14px;color:#1d2d3e;">' + snShipDate + '</span>' +
                     '</div>' +
                     '<div style="display:flex;flex-direction:column;gap:4px;">' +
-                      '<span style="font-family:\'72\',Arial,sans-serif;font-size:14px;color:#556b82;">Estimated Delivery Date:</span>' +
-                      '<span style="font-family:\'72\',Arial,sans-serif;font-size:14px;color:#1d2d3e;">Apr 11, 2026</span>' +
+                      '<span style="font-family:\'72\',Arial,sans-serif;font-size:14px;color:#556b82;">Estimated Delivery Date</span>' +
+                      '<span style="font-family:\'72\',Arial,sans-serif;font-size:14px;color:#1d2d3e;">' + snDeliveryDate + '</span>' +
                     '</div>' +
                   '</div>' +
                 '</div>' +

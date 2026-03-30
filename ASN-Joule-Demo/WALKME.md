@@ -95,23 +95,23 @@ Then Joule says it is preparing **ASN-777 (Chicago, IL)** and **ASN-999 (Dallas,
 
 ---
 
-## Step 6 — Assign a Ship Date
+## Step 6 — Estimate Delivery Date
 
 Joule asks (bold text):
-> *"Would you like me to assign an estimated ship date based on the origin, destination, and required delivery date?"*
+> *"Would you like me to estimate the delivery date based on the origin, destination, and required ship date?"*
 
 Two option buttons:
 
 | Button | What happens |
 |---|---|
-| **1 — Yes** | A date picker calendar appears — continue to Step 7 |
+| **1 — Yes** | Joule confirms it will use the required ship date as the basis, and a date picker appears — continue to Step 7 |
 | **2 — No** | Joule generates ASNs without dates, workbench updates |
 
 Click **Option 1 — Yes**.
 
 ---
 
-## Step 7 — Pick a Ship Date
+## Step 7 — Confirm or Adjust the Shipping Date
 
 A mini calendar appears inside the Joule panel.
 - Dates in **green** = on-time delivery guaranteed
