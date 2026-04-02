@@ -1,4 +1,4 @@
-sap.ui.define([
+sap.ui.require([
   "sap/ui/model/json/JSONModel",
   "sap/ui/model/Sorter",
   "sap/m/Text",
@@ -958,10 +958,15 @@ sap.ui.define([
 
       /* WalkMe download stub — replace hrefs with real file paths when available */
       window._bnDlWalkme = function (which) {
-        var files = { oc: "walkme-oc-demo.pdf", asn: "walkme-asn-demo.pdf" };
+        var files = {
+          oc:  { href: "OC-Joule-Demo/WALKME.md",  name: "OC-Demo-WalkMe-Guide.md"  },
+          asn: { href: "ASN-Joule-Demo/WALKME.md", name: "ASN-Demo-WalkMe-Guide.md" }
+        };
+        var f = files[which];
+        if (!f) { return; }
         var a = document.createElement("a");
-        a.href = files[which] || "#";
-        a.download = files[which] || "";
+        a.href = f.href;
+        a.download = f.name;
         a.click();
       };
     })();

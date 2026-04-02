@@ -1,4 +1,4 @@
-sap.ui.define([
+sap.ui.require([
   "sap/ui/model/json/JSONModel",
   "sap/ui/model/Sorter",
   "sap/m/Text",

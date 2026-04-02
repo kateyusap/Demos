@@ -11,9 +11,14 @@
     data-sap-ui-theme="sap_horizon"
     data-sap-ui-libs="sap.m,sap.uxap,sap.ui.layout,sap.f,sap.tnt"
     data-sap-ui-compatVersion="edge"
-    data-sap-ui-async="true"
-    data-sap-ui-on-init="module:businessnetwork/workbench/init"
-    data-sap-ui-resource-roots='{"businessnetwork.workbench": "./"}'>
+    data-sap-ui-async="true">
+  </script>
+  <script>
+    sap.ui.getCore().attachInit(function () {
+      var s = document.createElement("script");
+      s.src = "init.js";
+      document.head.appendChild(s);
+    });
   </script>
 
   <style>
