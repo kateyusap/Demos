@@ -1,4 +1,6 @@
-sap.ui.require([
+sap.ui.define([], function () {
+  "use strict";
+  sap.ui.require([
   "sap/ui/model/json/JSONModel",
   "sap/ui/model/Sorter",
   "sap/m/Text",
